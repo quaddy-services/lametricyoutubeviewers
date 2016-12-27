@@ -17,10 +17,23 @@ const express = require('express');
 
 const app = express();
 
+
 // [START hello_world]
 // Say hello!
 app.get('/', (req, res) => {
   res.status(200).send('42');
+
+// TODO 
+// https://content.googleapis.com/youtube/v3/channels?part=statistics
+//  
+// OAuth2
+// Client ID: 714112737572-45bs6edijgf21s8it0pil6q0b4fkmil9.apps.googleusercontent.com
+// Client Secret: lM_uxkZarR7iWK6F2DVi6kX3
+// Scope: https://www.googleapis.com/auth/youtube
+// Authentication URL: https://accounts.google.com/o/oauth2/auth
+// Redirect URI: http://lametric.com/redirect
+// Token URL: https://accounts.google.com/o/oauth2/token
+
 });
 // [END hello_world]
 
