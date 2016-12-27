@@ -15,13 +15,81 @@
 
 const express = require('express');
 
+// http://stackoverflow.com/questions/18814221/adding-timestamps-to-all-console-messages
+// add timestamps in front of log messages
+// require('console-stamp')(console, '[HH:MM:ss.l]');
+// https://www.npmjs.com/package/log-timestamp
+require('log-timestamp');
+
+// https://blog.risingstack.com/node-hero-node-js-request-module-tutorial/
+const requestpromise = require('request-promise');
+
 const app = express();
 
+app.get('/info', (req, res) => {
+  for(var item in req.headers) {
+    console.log('info:'+item + ": " + req.headers[item]);
+  };
+   console.log('info:'+'req.url='+req.url);
+  console.log('info:'+'req.query='+req.query);
+   console.log('info:'+'req.path='+req.path);
+   console.log('info:'+'req.query.id='+req.query.id);
+   
+  for(var item in req.params) {
+    console.log('info:'+item + ": " + req.params[item]);
+  };
+});
 
 // [START hello_world]
-// Say hello!
+// Say hello
 app.get('/', (req, res) => {
-  res.status(200).send('42');
+  for(var item in req.headers) {
+    console.log(item + ": " + req.headers[item]);
+  };
+   console.log('req.path='+req.path);
+
+ // https://blog.risingstack.com/node-hero-node-js-request-module-tutorial/
+ requestpromise({
+   // TODO uri: 'https://content.googleapis.com/youtube/v3/channels',
+    uri: 'http://localhost:8080/info',
+    headers: {
+      'User-Agent': req.headers['user-agent'],
+      'accept' : req.header['accept'],
+      'Authentication':req.headers['Authentication'],
+      'auth':req.headers['auth']
+    },
+    qs: {
+      part: 'statistics',
+      id: req.query.id //,
+     // apiKey: 'api-key'
+         // Use your accuweather API key here
+    },
+     resolveWithFullResponse: true
+    // json: true
+  })
+    .then((data) => {
+      console.log("Response.statusCode=%d", response.statusCode);
+      // TODO res.render('index', data)
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(err.statusCode).send(err.data);
+      // TODO res.render('error')
+    });
+
+
+  var result="";
+  result += "{";
+result += '    "frames": [';
+result += '        {';
+result += '            "text": "'+'43 Views'+'",';
+result += '            "icon": "i3221",';
+result += '            "index": 0';
+result += '        }';
+result += '    ]';
+result += '}';
+
+  res.status(200).send(result);
 
 // TODO 
 // https://content.googleapis.com/youtube/v3/channels?part=statistics
