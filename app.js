@@ -90,15 +90,19 @@ var options={
  //           console.log("info.statistics.viewCount"+info.statistics.viewCount);
             // TODO res.render('index', data)
             var tempText = info.items[0].statistics.viewCount+" Views";
+            if (req.query.channelInfo != null) {
+              tempText += "("+req.query.channelInfo+")";
+            }
            console.log("tempText="+tempText);
    //          var tempText = "42 Views";
-            res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]}));
+            res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i280",index:0}]}));
        } else {
             console.log("error="+error);
+            res.pipe(response);
               // res.status(err.statusCode).send(err.data);
               // TODO res.render('error')
-              var tempText = "41 Views";
-              res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]})); 
+ //             var tempText = "error:"+error+" "+response.body;
+ //             res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i280",index:0}]})); 
       }
     }
     
