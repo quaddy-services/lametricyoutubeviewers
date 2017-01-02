@@ -22,7 +22,9 @@ const express = require('express');
 require('log-timestamp');
 
 // https://blog.risingstack.com/node-hero-node-js-request-module-tutorial/
-const requestpromise = require('request-promise');
+
+// http://stackoverflow.com/questions/39301227/external-api-calls-with-express-node-js-and-require-module
+const request = require('request');
 
 const app = express();
 
@@ -53,8 +55,7 @@ app.get('/', (req, res) => {
    console.log('req.path='+req.path);
    console.log('req.query.id='+req.query.id);
 
- // https://blog.risingstack.com/node-hero-node-js-request-module-tutorial/
- requestpromise({
+var options={
     uri: 'https://content.googleapis.com/youtube/v3/channels',
     // uri: 'http://localhost:8080/info',
     headers: {
@@ -68,29 +69,35 @@ app.get('/', (req, res) => {
       id: req.query.id //,
      // apiKey: 'api-key'
          // Use your accuweather API key here
-    },
-     resolveWithFullResponse: true
-    // json: true
-  })
-    .then((response) => {
-      console.log("Response.statusCode=%d", response.acceptstatusCode);
-       console.log("response="+ response);
-      console.log("response.data="+ response.data);
-      var info = JSON.parse(body);
-      console.log("JSON="+info);
-      // https://developers.google.com/youtube/v3/docs/channels#resource
-      console.log("info.statistics.viewCount"+info.statistics.viewCount);
-      // TODO res.render('index', data)
-      var tempText = info.statistics.viewCount+" Views";
-      res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]}));
-    })
-    .catch((err) => {
-      console.log(err);
-      // res.status(err.statusCode).send(err.data);
-      // TODO res.render('error')
-      var tempText = "41 Views";
-      res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]})); 
-   });
+    }
+};
+ console.log("Request="+JSON.stringify(options));
+ // https://blog.risingstack.com/node-hero-node-js-request-module-tutorial/
+ request(options,
+    function (error, response, body) {
+      console.log("response.statusCode="+ response.statusCode);
+      console.log("response.body="+ response.body);
+      if (!error && response.statusCode == 200) {
+            console.log("response="+ response);
+            console.log("response.data="+ response.data);
+            var info = JSON.parse(body);
+            console.log("JSON="+info);
+            // https://developers.google.com/youtube/v3/docs/channels#resource
+            console.log("info.statistics.viewCount"+info.statistics.viewCount);
+            // TODO res.render('index', data)
+            var tempText = info.statistics.viewCount+" Views";
+            res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]}));
+       } else {
+            console.log("error="+error);
+              // res.status(err.statusCode).send(err.data);
+              // TODO res.render('error')
+              var tempText = "41 Views";
+              res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]})); 
+      }
+    }
+    
+  );
+    
 
 
 //   var result="";
