@@ -46,17 +46,22 @@ app.get('/', (req, res) => {
   for(var item in req.headers) {
     console.log(item + ": " + req.headers[item]);
   };
+  console.log(' req.headers.accept='+ req.headers["accept"]);
+  console.log(' req.header.accept='+ req.header("accept"));
+   console.log(' req.headers.Authentication='+ req.headers["Authentication"]);
+   console.log(' req.header.Authentication='+ req.header.Authentication);
    console.log('req.path='+req.path);
+   console.log('req.query.id='+req.query.id);
 
  // https://blog.risingstack.com/node-hero-node-js-request-module-tutorial/
  requestpromise({
-   // TODO uri: 'https://content.googleapis.com/youtube/v3/channels',
-    uri: 'http://localhost:8080/info',
+    uri: 'https://content.googleapis.com/youtube/v3/channels',
+    // uri: 'http://localhost:8080/info',
     headers: {
       'User-Agent': req.headers['user-agent'],
-      'accept' : req.header['accept'],
-      'Authentication':req.headers['Authentication'],
-      'auth':req.headers['auth']
+      'accept' : req.headers["accept"],
+       'Authentication':req.headers["Authentication"],
+       'auth':req.headers["auth"]
     },
     qs: {
       part: 'statistics',
@@ -67,8 +72,10 @@ app.get('/', (req, res) => {
      resolveWithFullResponse: true
     // json: true
   })
-    .then((data) => {
-      console.log("Response.statusCode=%d", response.statusCode);
+    .then((response) => {
+      console.log("Response.statusCode=%d", response.acceptstatusCode);
+       console.log("response="+ response);
+      console.log("response.data="+ response.data);
       // TODO res.render('index', data)
     })
     .catch((err) => {
