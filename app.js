@@ -51,8 +51,9 @@ app.get('/', (req, res) => {
   console.log(' req.headers.accept='+ req.headers["accept"]);
   console.log(' req.header.accept='+ req.header("accept"));
    console.log(' req.headers.Authentication='+ req.headers["Authentication"]);
-   console.log(' req.header.Authentication='+ req.header.Authentication);
-   console.log('req.path='+req.path);
+  console.log(' req.header.Authentication='+ req.header.Authentication);
+  console.log(' req.headers.authorization='+ req.headers["authorization"]);
+    console.log('req.path='+req.path);
    console.log('req.query.id='+req.query.id);
 
 var options={
@@ -62,9 +63,12 @@ var options={
       'User-Agent': req.headers['user-agent'],
       'accept' : req.headers["accept"],
        'Authentication':req.headers["Authentication"],
-       'auth':req.headers["auth"]
+        'authorization':req.headers["authorization"],
+     'auth':req.headers["auth"]
     },
     qs: {
+       // https://developers.google.com/youtube/v3/docs/channels/list
+     // part: 'id',
       part: 'statistics',
       id: req.query.id //,
      // apiKey: 'api-key'
@@ -81,11 +85,13 @@ var options={
             console.log("response="+ response);
             console.log("response.data="+ response.data);
             var info = JSON.parse(body);
-            console.log("JSON="+info);
+            console.log("JSON="+JSON.stringify(info));
             // https://developers.google.com/youtube/v3/docs/channels#resource
-            console.log("info.statistics.viewCount"+info.statistics.viewCount);
+ //           console.log("info.statistics.viewCount"+info.statistics.viewCount);
             // TODO res.render('index', data)
-            var tempText = info.statistics.viewCount+" Views";
+            var tempText = info.items[0].statistics.viewCount+" Views";
+           console.log("tempText="+tempText);
+   //          var tempText = "42 Views";
             res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]}));
        } else {
             console.log("error="+error);
