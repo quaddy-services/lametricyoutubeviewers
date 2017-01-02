@@ -76,27 +76,35 @@ app.get('/', (req, res) => {
       console.log("Response.statusCode=%d", response.acceptstatusCode);
        console.log("response="+ response);
       console.log("response.data="+ response.data);
+      var info = JSON.parse(body);
+      console.log("JSON="+info);
+      // https://developers.google.com/youtube/v3/docs/channels#resource
+      console.log("info.statistics.viewCount"+info.statistics.viewCount);
       // TODO res.render('index', data)
+      var tempText = info.statistics.viewCount+" Views";
+      res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]}));
     })
     .catch((err) => {
       console.log(err);
-      res.status(err.statusCode).send(err.data);
+      // res.status(err.statusCode).send(err.data);
       // TODO res.render('error')
-    });
+      var tempText = "41 Views";
+      res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i3221",index:0}]})); 
+   });
 
 
-  var result="";
-  result += "{";
-result += '    "frames": [';
-result += '        {';
-result += '            "text": "'+'43 Views'+'",';
-result += '            "icon": "i3221",';
-result += '            "index": 0';
-result += '        }';
-result += '    ]';
-result += '}';
+//   var result="";
+//   result += "{";
+// result += '    "frames": [';
+// result += '        {';
+// result += '            "text": "'+'43 Views'+'",';
+// result += '            "icon": "i3221",';
+// result += '            "index": 0';
+// result += '        }';
+// result += '    ]';
+// result += '}';
 
-  res.status(200).send(result);
+//   res.status(200).send(result);
 
 // TODO 
 // https://content.googleapis.com/youtube/v3/channels?part=statistics
