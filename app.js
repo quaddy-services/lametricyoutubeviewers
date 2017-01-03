@@ -62,9 +62,7 @@ var options={
     headers: {
       'User-Agent': req.headers['user-agent'],
       'accept' : req.headers["accept"],
-       'Authentication':req.headers["Authentication"],
-        'authorization':req.headers["authorization"],
-     'auth':req.headers["auth"]
+        'authorization':req.headers["authorization"]
     },
     qs: {
        // https://developers.google.com/youtube/v3/docs/channels/list
@@ -89,17 +87,22 @@ var options={
             // https://developers.google.com/youtube/v3/docs/channels#resource
  //           console.log("info.statistics.viewCount"+info.statistics.viewCount);
             // TODO res.render('index', data)
-            var tempText = info.items[0].statistics.viewCount+" Views";
-            if (req.query.channelInfo != null) {
-              tempText += "("+req.query.channelInfo+")";
+            var tempText;
+            if (info.items.length ==0) {
+              tempText = "no result for channel "+req.query.id;
+            } else {
+              tempText = info.items[0].statistics.viewCount+" Views "+info.items[0].statistics.subscriberCount+" Followers";
+              if (req.query.channelInfo != null) {
+                tempText += "("+req.query.channelInfo+")";
+              }
             }
            console.log("tempText="+tempText);
    //          var tempText = "42 Views";
             res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i280",index:0}]}));
        } else {
             console.log("error="+error);
-            res.pipe(response);
-              // res.status(err.statusCode).send(err.data);
+           // res.pipe(response);
+            res.status(response.statusCode).send(response.body);
               // TODO res.render('error')
  //             var tempText = "error:"+error+" "+response.body;
  //             res.status(200).send(JSON.stringify({frames:[{text:tempText,icon:"i280",index:0}]})); 
