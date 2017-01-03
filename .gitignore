@@ -9,3 +9,4 @@ test/encrypted/nodejs-docs-samples.json
 key.json
 yarn.lock
 /.project
+/.settings/
