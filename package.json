@@ -10,19 +10,11 @@
     "deploy": "gcloud app deploy app.yaml",
     "test": "mocha test/index.js -t 30000"
   },
-  "author": "Google Inc.",
+  "author": "Quaddy Services",
   "contributors": [
     {
-      "name": "Jon Wayne Parrott",
-      "email": "jonwayne@google.com"
-    },
-    {
-      "name": "Jonathan Simon",
-      "email": "jbsimon@google.com"
-    },
-    {
-      "name": "Jason Dobry",
-      "email": "jdobry@google.com"
+      "name": "Stefan Cordes",
+      "email": "info@quaddy-services.de"
     }
   ],
   "license": "Apache Version 2.0",
