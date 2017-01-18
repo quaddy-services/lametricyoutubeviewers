@@ -1,7 +1,5 @@
-# 1 - Hello world
+# YouTube
 
-This folder contains the sample code for the [Hello world][step-1]
-tutorial. Please refer to the tutorial for instructions on configuring, running,
-and deploying this sample.
+[lametric] pull service for youtoube 
 
-[step-1]: https://cloud.google.com/nodejs/getting-started/hello-world
+[lametric]: http://lametric.com/
