@@ -28,7 +28,7 @@ const request = require('request');
 
 const app = express();
 
-app.get('/info', (req, res) => {
+app.get('/', (req, res) => {
   for (var item in req.headers) {
     console.log('info:' + item + ": " + req.headers[item]);
   };
@@ -40,11 +40,12 @@ app.get('/info', (req, res) => {
   for (var item in req.params) {
     console.log('info:' + item + ": " + req.params[item]);
   };
+  res.status(200).send('{"ok":"true"}');
 });
 
 // [START hello_world]
 // Say hello
-app.get('/', (req, res) => {
+app.get('/json', (req, res) => {
   for (var item in req.headers) {
     console.log(item + ": " + req.headers[item]);
   };
@@ -147,6 +148,7 @@ app.get('/', (req, res) => {
 if (module === require.main) {
   // [START server]
   // Start the server
+  console.log(`App listening on process.env.PORT=${process.env.PORT}`);
   const server = app.listen(process.env.PORT || 8080, () => {
     const port = server.address().port;
     console.log(`App listening on port ${port}`);
